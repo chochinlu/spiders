@@ -22,10 +22,7 @@ class MovieSpider(scrapy.Spider):
         'comment': r.css('span.short::text').extract()[0].replace('\n', '') 
       }
 
-    next = response.css('div#paginator a.next::attr(href)').extract_first()
-    if next is not None:
-      next = response.urljoin(next)
-      print('next: ', next)
-      yield scrapy.Request(next, callback=self.parse, headers=self.header)
+    for a in response.css('div#paginator a.next'):
+      yield response.follow(a, callback=self.parse, headers=self.header)
     
   
