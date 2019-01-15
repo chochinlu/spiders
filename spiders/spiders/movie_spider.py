@@ -7,17 +7,11 @@ class MovieSpider(scrapy.Spider):
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
   }
 
-  def urls(self):
-    basicUrl = 'https://movie.douban.com/subject/3878007/comments?start={}&limit=20&sort=new_score&status=P'
-    return [basicUrl.format(i) for i in range(0, 200, 20)]
-
   def start_requests(self):
-       for url in self.urls():
-           yield scrapy.Request(url=url, callback=self.parse, headers=self.header)
+    url = 'https://movie.douban.com/subject/3878007/comments?status=P'
+    yield scrapy.Request(url=url, callback=self.parse, headers=self.header)
 
   def parse(self, response):
-    a = self.urls()
-    print('urls: ', a)
     result = response.css('div.comment-item')
     for r in result:
       yield {
@@ -27,4 +21,11 @@ class MovieSpider(scrapy.Spider):
         'commentTime': r.css('span.comment-time::text').extract()[0].replace(' ', '').replace('\n',''),
         'comment': r.css('span.short::text').extract()[0].replace('\n', '') 
       }
+
+    next = response.css('div#paginator a.next::attr(href)').extract_first()
+    if next is not None:
+      next = response.urljoin(next)
+      print('next: ', next)
+      yield scrapy.Request(next, callback=self.parse, headers=self.header)
+    
   
