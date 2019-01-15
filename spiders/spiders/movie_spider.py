@@ -9,9 +9,9 @@ class MovieSpider(scrapy.Spider):
     }
   }
 
-  def start_requests(self):
-    url = 'https://movie.douban.com/subject/3878007/comments?status=P'
-    yield scrapy.Request(url=url, callback=self.parse)
+  start_urls = [
+    'https://movie.douban.com/subject/3878007/comments?status=P'
+  ]
 
   def parse(self, response):
     result = response.css('div.comment-item')
