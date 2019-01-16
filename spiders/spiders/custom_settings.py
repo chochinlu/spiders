@@ -6,3 +6,8 @@ douban_settings = {
     'ROBOTSTXT_OBEY': False,
     'FEED_EXPORT_ENCODING': 'utf-8'
 }
+
+image_settings = {
+    'ITEM_PIPELINES': {'scrapy.pipelines.images.ImagesPipeline': 1},
+    'IMAGES_STORE': './star_images'
+}
