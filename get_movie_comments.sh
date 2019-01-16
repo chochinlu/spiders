@@ -17,5 +17,5 @@ build=$fileName.$fileTypeName
 echo "Export result to $build...."
 
 rm -r "$build"
-scrapy crawl movie -o "$build" -s FEED_EXPORT_ENCODING=utf-8 
+scrapy crawl movie -o "$build" 
 echo "Done"

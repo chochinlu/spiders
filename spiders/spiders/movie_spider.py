@@ -1,13 +1,9 @@
 import scrapy
+from . import custom_settings
 class MovieSpider(scrapy.Spider):
   name='movie'
 
-  custom_settings = {
-    'DEFAULT_REQUEST_HEADERS': {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
-      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
-    }
-  }
+  custom_settings=custom_settings.douban_settings
 
   start_urls = [
     'https://movie.douban.com/subject/3878007/comments?status=P'
